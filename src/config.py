@@ -18,7 +18,7 @@ from typing import Literal
 
 from huggingface_hub import get_full_repo_name
 
-from sal.utils.hub import get_dataset_revisions
+from utils.hub import get_dataset_revisions
 
 
 @dataclass

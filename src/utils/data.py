@@ -21,7 +21,7 @@ from huggingface_hub import (
     repo_exists,
 )
 
-from sal.config import Config
+from config import Config
 
 logger = logging.getLogger()
 

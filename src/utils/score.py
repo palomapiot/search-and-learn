@@ -20,8 +20,8 @@ from typing import Literal
 from datasets import Dataset
 from tqdm import tqdm
 
-from sal.config import Config
-from sal.utils.math import (
+from config import Config
+from utils.maths import (
     compute_maj_pred,
     compute_naive_pred,
     compute_weighted_pred,

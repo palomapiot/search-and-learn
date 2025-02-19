@@ -24,7 +24,7 @@ import numpy as np
 from latex2sympy2 import latex2sympy
 from sympy import latex, simplify
 
-from .qwen_math_parser import extract_answer, strip_string
+from utils.qwen_math_parser import extract_answer, strip_string
 
 
 # Timeout exception

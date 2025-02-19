@@ -16,9 +16,9 @@
 import numpy as np
 from vllm import LLM, SamplingParams
 
-from sal.config import Config
-from sal.models.reward_models import PRM
-from sal.utils.score import aggregate_scores
+from config import Config
+from reward_models import PRM
+from utils.score import aggregate_scores
 
 
 def best_of_n(x, config: Config, llm: LLM, prm: PRM):

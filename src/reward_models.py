@@ -23,7 +23,7 @@ from transformers import (
     PreTrainedTokenizer,
 )
 
-from sal.config import Config
+from config import Config
 
 CANDIDATE_TOKENS = [648, 387]
 STEP_TAG_ID = 12902

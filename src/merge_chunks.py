@@ -20,7 +20,7 @@ from datasets import concatenate_datasets, load_dataset
 from tqdm.auto import tqdm
 from transformers import HfArgumentParser
 
-from sal.utils.hub import get_dataset_revisions
+from utils.hub import get_dataset_revisions
 
 """Merge revisions of a dataset into a single config.
 

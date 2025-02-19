@@ -20,13 +20,13 @@ import numpy as np
 from tqdm import tqdm
 from vllm import LLM, SamplingParams
 
-from sal.config import Config
-from sal.models.reward_models import PRM
+from config import Config
+from reward_models import PRM
 
 from .utils import Beam, build_conv, generate_k_steps, last
 
 logger = logging.getLogger()
-from sal.utils.score import aggregate_scores
+from utils.score import aggregate_scores
 
 
 def _beam_search(batch_of_prompts, config: Config, llm: LLM, prm: PRM) -> list[Beam]:
