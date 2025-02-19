@@ -78,58 +78,6 @@ class PRM:
     ) -> list[list[float]]:
         raise NotImplementedError
 
-
-class MathShepherd(PRM):
-    def load_model_and_tokenizer(self) -> tuple[PreTrainedModel, PreTrainedTokenizer]:
-        model_id = "peiyi9979/math-shepherd-mistral-7b-prm"
-        tokenizer = AutoTokenizer.from_pretrained(model_id)
-        # For batched inference
-        tokenizer.pad_token = tokenizer.eos_token
-        model = AutoModelForCausalLM.from_pretrained(
-            model_id,
-            device_map="auto",
-            attn_implementation="flash_attention_2",
-            torch_dtype=torch.float16,
-        ).eval()
-        return model, tokenizer
-
-    def score(
-        self, questions: list[str], outputs: list[list[str]]
-    ) -> list[list[float]]:
-        inputs_for_prm = []
-        lengths = []
-        for question, output in zip(questions, outputs):
-            prompt = self.search_config.system_prompt + "\n" + question + "\n"
-            special_outputs = [o.replace("\n\n", " ки\n\n") for o in output]
-            special_outputs = [
-                o + " ки" if o[-2:] != "\n\n" else o for o in special_outputs
-            ]
-            inputs_for_prm.extend([f"{prompt} {o}" for o in special_outputs])
-            lengths.append(len(output))
-
-        # TODO: tokenize each batch independently so there is less padding and faster inference
-        output_scores = batched_math_shepherd_inference(
-            self.model,
-            self.tokenizer,
-            inputs_for_prm,
-            self.search_config.prm_batch_size,
-        )
-        cumulative_lengths = list(accumulate(lengths))
-        # reshape the output scores to match the input
-        output_scores = [
-            output_scores[i:j]
-            for i, j in zip([0] + cumulative_lengths[:-1], cumulative_lengths)
-        ]
-
-        # stripped_output_scores = [] TODO: strip out the reward for previous steps
-        for output_score, output in zip(output_scores, outputs):
-            assert len(output_score) == len(
-                output
-            ), f"{len(output_score)} != {len(output)}"
-
-        return output_scores
-
-
 class RLHFFlow(PRM):
     def load_model_and_tokenizer(
         self, **model_kwargs
@@ -272,9 +220,6 @@ class RLHFFlow(PRM):
 
 
 def load_prm(config: Config) -> PRM:
-    if config.prm_path == "peiyi9979/math-shepherd-mistral-7b-prm":
-        return MathShepherd(config)
-
     if config.prm_path == "RLHFlow/Llama3.1-8B-PRM-Deepseek-Data":
         return RLHFFlow(config)
 

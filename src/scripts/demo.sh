@@ -12,4 +12,4 @@ SIF="/mnt/experiments/slurm/singularity-containers/search-and-learn.sif"
 
 export HF_TOKEN=YOUR_ACCESS_TOKEN
 
-singularity run --disable-cache --pwd $(pwd) --nv --bind /mnt:/mnt $SIF python3 src/test_time_compute.py recipes/Llama-3.2-1B-Instruct/best_of_n.yaml
+singularity run --disable-cache --pwd $(pwd) --nv --bind /mnt:/mnt $SIF python3 src/test_time_compute.py recipes/dsm5/best_of_n.yaml
