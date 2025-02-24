@@ -21,7 +21,7 @@ from datasets import Dataset
 from tqdm import tqdm
 
 from config import Config
-from utils.maths import (
+from utils.text_classification import (
     compute_maj_pred,
     compute_naive_pred,
     compute_weighted_pred,

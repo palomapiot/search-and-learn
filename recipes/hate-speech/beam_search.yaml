@@ -1,0 +1,38 @@
+# Model
+model_path: /mnt/gpu-fastdata/paloma/models/Llama-3.2-1B-Instruct
+prm_path: RLHFlow/Llama3.1-8B-PRM-Deepseek-Data # TODO: which PRM use?
+output_dir: inference/hate-speech
+approach: beam_search
+
+# Search options
+filter_duplicates: true
+n: 4
+search_batch_size: 1  # DO NOT CHANGE!
+
+# Dataset
+num_samples: 15 # REMOVE FOR FULL DATASET
+dataset_name: data/hate-speech
+dataset_split: test
+# dataset_config: str = None
+# dataset_start: int = None
+# dataset_end: int = None
+
+# System prompt and chat template
+system_prompt: |-
+  Determine whether a social media message is hate speech or not and then tell me your decision. You have to reason the following aspects:
+
+      ## Step 1: (Target)
+      Your job is to identify the target of the hate speech in the text, if the text contains hate speech.
+      Options: [gender, sexual_orientation, race, religion, disability, immigrants, identity_person, None]
+
+      ## Step 2: (Explanation)
+      You must explain, phrase by phrase, whether each phrase in a piece of text is hate speech or not, and justify it.
+      This is the definition of hate speech: "language characterized by offensive, derogatory, humiliating, or insulting discourse that promotes violence, discrimination, or hostility towards individuals or groups based on attributes such as race, religion, ethnicity, or gender".
+      The output format is:
+          Input: <input query phrase 1>. Explanation: <input query 1 phrase step-by-step explanation>.
+          Input: <input query phrase 2>. Explanation: <input query 2 phrase step-by-step explanation>.
+
+      ## Step 3: (Hate Speech Label)
+      You should tell me your final decision here based on the previous reasoning. You should include here either Hate Speech for hate speech or No Hate Speech (Neutral) for no hate speech or neutral.
+
+      You must end the reasoning with "The final answer is: [answer]", where [answer] is your decision on whether the text is hate speech (HATE) or no hate speech (NO_HATE).

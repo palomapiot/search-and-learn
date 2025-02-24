@@ -4,12 +4,12 @@
 #SBATCH --ntasks=1
 #SBATCH --gpus-per-node=1
 #SBATCH --nodelist=aragorn
-#SBATCH --mem-per-cpu=10G
-#SBATCH -o /mnt/gpu-fastdata/eliseo/search-and-learn/logs/%x-%j.out
-#SBATCH -e /mnt/gpu-fastdata/eliseo/search-and-learn/logs/%x-%j.err
+#SBATCH --mem-per-cpu=40G
+#SBATCH -o /mnt/gpu-fastdata/paloma/search-and-learn/logs/%x-%j.out
+#SBATCH -e /mnt/gpu-fastdata/paloma/search-and-learn/logs/%x-%j.err
 
 SIF="/mnt/experiments/slurm/singularity-containers/search-and-learn.sif"
 
-export HF_TOKEN=YOUR_ACCESS_TOKEN
+export HF_TOKEN=HF_TOKEN
 
-singularity run --disable-cache --pwd $(pwd) --nv --bind /mnt:/mnt $SIF python3 src/test_time_compute.py recipes/Llama-3.2-1B-Instruct/best_of_n.yaml
+singularity run --disable-cache --pwd $(pwd) --nv --bind /mnt:/mnt $SIF python3 src/test_time_compute.py recipes/hate-speech/best_of_n.yaml
